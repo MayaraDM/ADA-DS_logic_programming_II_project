@@ -2,7 +2,7 @@
 
 ## Projeto Final - Módulo II (Lógica de Programação II)
 
-Este projeto foi desenvolvido em grupo como requisito para conclusão do módulo II do curso de Data Science - Santander.
+Este projeto foi desenvolvido em grupo como requisito para conclusão do módulo II do curso de Data Science - Santander Coders 2022.
 
 O objetivo foi desenvolver um sistema de cadastro de produtos com
 - ID
