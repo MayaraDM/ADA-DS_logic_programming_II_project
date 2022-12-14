@@ -202,9 +202,8 @@ while True:
         except:
             print('Erro')
         lista_atualizada = excluir_cadastro(produto_id)
-        if lista_atualizada:
+        if lista_atualizada or lista_atualizada == []:
             atualizar_arquivo_estoque(lista_atualizada)
-        #Se a lista só tiver um produto (e ao remover, ficar com 0 produtos), ela não entra nesse último if, consequentemente não atualizando
 
     elif opcao == '6':
         break
