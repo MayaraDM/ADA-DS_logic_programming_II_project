@@ -145,7 +145,7 @@ def listar_produtos():
     cadastro = consultar_cadastro()
     print('Produtos cadastrados: ')
     for produto in cadastro:
-        print(f'ID: {produto["ID"]} | Nome: {produto["Nome"]}')
+        print(f'ID: {produto["ID"]} | Nome: {produto["Nome"]} | Estoque: {produto["Estoque"]}')
 
 
 # Funções de alteração do cadastro:
@@ -239,8 +239,8 @@ while True:
         
         if opcao_busca == '1' or opcao_busca == 'id':
             while True:
-                valor = validar_numero('ID', input('Informe o ID do produto: '))
-                if valor != None:
+                produto_id = validar_numero('ID', input('Informe o ID do produto: '))
+                if produto_id != None:
                     break
             produto = consultar_produto(produto_id)
             if produto:
