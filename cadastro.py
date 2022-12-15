@@ -19,13 +19,13 @@ def consultar_cadastro() -> list:
         cadastro = []
     return cadastro
 
-def atualizar_arquivo_cadastro(nova_lista: list):
+def atualizar_arquivo_cadastro(nova_lista: list) -> list:
     '''Atualiza arquivo json de acordo com a estrutura certa usando os valores
     da lista atualizada recebida como parâmetro.'''
     
     # Sobrescreve o arquivo json com a nova lista.
     with open(ARQUIVO_CADASTRO, 'w') as arquivo:
-        arquivo.write(json.dumps({"Produtos": nova_lista}))
+        arquivo.write(json.dumps({"Produtos": nova_lista}, indent=4))
     print("Arquivo atualizado.")
     return
 
@@ -111,9 +111,8 @@ def cadastrar_produto(lista_chaves, lista_valores) -> dict:
     # Adiciona o produto à lista de produtos
     cadastro.append(produto)
     # Sobrescreve o arquivo json com a nova lista.
-    with open(ARQUIVO_CADASTRO, 'w') as arquivo:
-        arquivo.write(json.dumps({"Produtos": cadastro}))
-
+    atualizar_arquivo_cadastro(cadastro)
+    
     return produto
 
 
