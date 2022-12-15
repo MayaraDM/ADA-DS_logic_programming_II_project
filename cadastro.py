@@ -182,7 +182,7 @@ def menu_atualizar_cadastro(menu:str):
     else:
         print('Opção inválida, por favor, digite um número de acordo com o menu: ')
     
-def atualizar_cadastro_produto(produto_id:int, lista_chaves):
+def atualizar_cadastro_produto(produto_id:int):
     ''' Altera o valor de um dos campos do produto a ser informado. '''
     
     produto = consultar_produto(produto_id)
@@ -198,7 +198,7 @@ def atualizar_cadastro_produto(produto_id:int, lista_chaves):
                 print('Cadastro atualizado')
         return cadastro 
     else:
-        print('Produto não encontrado.')
+        print('Impossível atualizar o cadastro. ID não existe.')
 
 
 def excluir_produto(produto_id: int):
@@ -219,7 +219,7 @@ def excluir_produto(produto_id: int):
         else:
             print("Ação cancelada.")
     else:
-        print('Produto não encontrado no cadastro.')
+        print('Impossível excluir cadastro. ID não existe.')
 
 
 # Executável num loop while:
@@ -233,7 +233,7 @@ while True:
         lista_chaves = ['ID', 'Nome', 'Especificações', 'Estoque', 'Descrição']
         lista_valores = inserir_infos(lista_chaves)
         cadastrar_produto(lista_chaves, lista_valores)
-        print(f"Produto {nome} inserido com sucesso.")
+        print(f"Produto cadastrado com sucesso.")
 
     elif opcao == '2':
         opcao_busca = input('Você deseja consultar o produto por:\n1 - ID\n2 - Nome\nOpção: ').lower()
@@ -265,7 +265,8 @@ while True:
                     break
         lista_atualizada = atualizar_cadastro_produto(produto_id)
         print(lista_atualizada)
-        atualizar_arquivo_cadastro(lista_atualizada)
+        if lista_atualizada or lista_atualizada == []:
+            atualizar_arquivo_cadastro(lista_atualizada)
 
 
     elif opcao == '5':
