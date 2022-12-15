@@ -146,7 +146,7 @@ def listar_produtos():
     cadastro = consultar_cadastro()
     print('Produtos cadastrados: ')
     for produto in cadastro:
-        print(f'ID: {produto["ID"]} | Nome: {produto["Nome"]}', end=' | ')
+        print(f'ID: {produto["ID"]} | Nome: {produto["Nome"]}')
 
 
 # Funções de alteração do cadastro:
