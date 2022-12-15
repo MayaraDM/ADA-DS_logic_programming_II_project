@@ -7,6 +7,7 @@ ARQUIVO_CADASTRO = "cadastro_produtos.json"
 
 def consultar_cadastro() -> list:
     '''Lê o arquivo json onde estão salvos os produtos do cadastro. Retorna uma lista de produtos'''
+    
     try:
         with open(ARQUIVO_CADASTRO, "r") as arquivo:
             cadastro = [produto for produto in json.loads(arquivo.read())['Produtos']]
@@ -21,6 +22,7 @@ def consultar_cadastro() -> list:
 def atualizar_arquivo_cadastro(nova_lista: list):
     '''Atualiza arquivo json de acordo com a estrutura certa usando os valores
     da lista atualizada recebida como parâmetro.'''
+    
     # Sobrescreve o arquivo json com a nova lista.
     with open(ARQUIVO_CADASTRO, 'w') as arquivo:
         arquivo.write(json.dumps({"Produtos": nova_lista}))
@@ -44,7 +46,8 @@ def erro_string(string):
 # Validação de inputs:
 def validar_numero(campo, valor):
     try:
-        valor = int(erro_numero(valor))
+        valor = int(valor)
+        valor = erro_numero(valor)
         return valor
     except ValueError:
         print(f'O {campo} precisa ser um número inteiro.')
@@ -54,10 +57,11 @@ def validar_numero(campo, valor):
 def validar_string(campo, valor):
     try:
         valor = erro_string(valor)
+        return valor
     except Exception:
         print(f'{campo} não pode ficar vazio.')
 
-# Funções para cadastro e validação dos inputs:
+# Funções para cadastro:
 def especificacoes():
     especificacoes = {}
     caracteristica = input('Insira o título da característica ou deixe em branco para encerrar: ').capitalize()
@@ -95,15 +99,15 @@ def inserir_infos(lista_chaves:list) -> dict:
         else:
             valor = input(f'Informe {(chave).lower()} do produto: ')
         lista_valores.append(valor)
-        return lista_valores
+    return lista_valores
     
 def cadastrar_produto(lista_chaves, lista_valores) -> dict:
     '''Monta um dicionário com os valores inseridos pelo usuário e salva no arquivo do cadastro.
     Retorna o dicionário estruturado'''
     
     produto = {chave:valor for chave, valor in zip(lista_chaves, lista_valores)}
-
     cadastro = consultar_cadastro()
+    
     # Adiciona o produto à lista de produtos
     cadastro.append(produto)
     # Sobrescreve o arquivo json com a nova lista.
@@ -116,8 +120,8 @@ def cadastrar_produto(lista_chaves, lista_valores) -> dict:
 #Funções de consulta:
 def consultar_produto(produto_id: int) -> dict:
     '''Busca a ID informada pelo usuário entre os registros no arquivo de cadastro. Retorna o dicionário do produto. '''
+    
     cadastro = consultar_cadastro()
-
     filtro = filter(lambda produto: int(produto['ID']) == produto_id, cadastro)
     produto = list(filtro)
     if produto == []:
@@ -127,6 +131,7 @@ def consultar_produto(produto_id: int) -> dict:
 
 def consultar_produto_nome(nome: str) -> dict:
     '''Busca o nome informado pelo usuário entre os registros no arquivo de cadastro. Retorna o dicionário do produto. '''
+    
     cadastro = consultar_cadastro()
     filtro = filter(lambda produto: produto['Nome'].lower() == nome.lower(), cadastro)
     produto = list(filtro)
@@ -137,6 +142,7 @@ def consultar_produto_nome(nome: str) -> dict:
 
 # A função pedida era pra listar só o ID e nome do produto, por isso tirei o que tinha a mais, pra simplificar.
 def listar_produtos():
+    
     cadastro = consultar_cadastro()
     print('Produtos cadastrados: ')
     for produto in cadastro:
@@ -145,6 +151,7 @@ def listar_produtos():
 
 # Funções de alteração do cadastro:
 def menu_atualizar_cadastro(menu:str):
+    
     if menu == '1':
         chave = 'Nome'
         while True:
@@ -177,6 +184,7 @@ def menu_atualizar_cadastro(menu:str):
     
 def atualizar_cadastro_produto(produto_id:int, lista_chaves):
     ''' Altera o valor de um dos campos do produto a ser informado. '''
+    
     produto = consultar_produto(produto_id)
     if produto:
         menu = input('Qual campo deseja atualizar?\n1 - Nome\n2 - Especificações\n3 - Estoque\n4 - Descrição\n')  
@@ -195,6 +203,7 @@ def atualizar_cadastro_produto(produto_id:int, lista_chaves):
 
 def excluir_produto(produto_id: int):
     '''Exclui o produto e todos os seus atributos da lista de produtos cadastrados. '''
+    
     lista_produtos = consultar_cadastro()
     produto = consultar_produto(produto_id)
 
