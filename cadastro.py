@@ -302,7 +302,7 @@ while True:
                 break
         try:
             lista_atualizada, produto = atualizar_cadastro_produto(produto_id)
-            print(lista_atualizada)
+            print(produto)
             if lista_atualizada or lista_atualizada == []:
                 atualizar_arquivo_cadastro(lista_atualizada)
         except:
