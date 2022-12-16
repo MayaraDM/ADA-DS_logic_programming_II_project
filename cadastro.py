@@ -90,7 +90,10 @@ def inserir_infos(lista_chaves:list) -> dict:
                     break
         elif chave == 'Especificações':
             print(f'Informe {chave} do produto: ')
-            valor = especificacoes()
+            while True:
+                valor = validar_string(chave, especificacoes())
+                if valor != None:
+                    break
         elif chave == 'Estoque':
             while True:
                 valor = validar_numero(chave, input(f'Informe {(chave).lower()} do produto: '))
