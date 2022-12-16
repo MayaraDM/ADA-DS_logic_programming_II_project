@@ -142,7 +142,7 @@ def consultar_produto(produto_id: int) -> dict:
     filtro = filter(lambda produto: int(produto['ID']) == produto_id, cadastro)
     produto = list(filtro)
     if produto == []:
-        print('Produto não encontrado.') # Assim o return da função já é None (não precisa return None)
+        return None
     else:
         return produto[0]
 
@@ -154,7 +154,7 @@ def consultar_produto_nome(nome: str) -> dict:
     filtro = filter(lambda produto: produto['Nome'].lower() == nome.lower(), cadastro)
     produto = list(filtro)
     if produto == []:
-        print('Produto não encontrado.')
+        return None
     else:
         return produto[0]
 
@@ -266,14 +266,18 @@ while True:
                 if produto_id != None:
                     break
             produto = consultar_produto(produto_id)
-            if produto:
-                print(produto)
-            else:
+            if produto == None:
                 print("Produto não encontrado.")
+            else:
+                print(produto)
         
         elif opcao_busca == '2' or opcao_busca == 'nome':
-                nome = input('Informe o nome do produto: ')
-                print(consultar_produto_nome(nome))
+            nome = input('Informe o nome do produto: ')
+            produto = consultar_produto_nome(nome)
+            if produto == None:
+                print("Produto não encontrado.")
+            else:
+                print(produto)
         else:
             print('Opção inválida.')
         print('\n')
