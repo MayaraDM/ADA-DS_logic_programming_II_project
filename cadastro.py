@@ -32,12 +32,16 @@ def atualizar_arquivo_cadastro(nova_lista: list) -> list:
 
 # Levantamento de erros:
 def erro_numero(numero):
+    '''Levanta erro de entrada com inserção de números negativos.'''
+    
     if numero < 0:
         raise Exception('O número não pode ser negativo.')
     else:
         return numero
 
 def erro_string(string):
+    '''Levanta erro de entrada em campos de string ou dicionário que não devem ficar vazios.'''
+    
     if len(string) == 0:
         raise Exception('O campo não pode ficar vazio.')
     else:
@@ -45,6 +49,8 @@ def erro_string(string):
 
 # Validação de inputs:
 def validar_numero(campo, valor):
+    '''Validação e tratamento de erro para campos numéricos.'''
+    
     try:
         valor = int(valor)
         valor = erro_numero(valor)
@@ -55,6 +61,8 @@ def validar_numero(campo, valor):
         print(f'O {campo} precisa ser um número inteiro não negativo.')
 
 def validar_string(campo, valor):
+    '''Validação e tratamento de erro para campos string ou dicionário.'''
+    
     try:
         valor = erro_string(valor)
         return valor
@@ -63,6 +71,9 @@ def validar_string(campo, valor):
 
 # Funções para cadastro:
 def especificacoes():
+    '''Popula um dicionário com características e descrições do produto sendo
+    cadastrado/atualizado pelo usuário.'''
+    
     especificacoes = {}
     caracteristica = input('Insira o título da característica ou deixe em branco para encerrar: ').capitalize()
     while caracteristica != '':
@@ -74,7 +85,10 @@ def especificacoes():
         caracteristica = input('Insira o título da característica ou deixe em branco para encerrar: ').capitalize()
     return especificacoes
 
-def inserir_infos(lista_chaves:list) -> dict: 
+def inserir_infos(lista_chaves:list) -> list:
+    '''Cria uma lista de valores para cada campo do cadastro e confere se os valores
+    inseridos estão de acordo com os requisitos.'''
+     
     lista_valores = []
     cadastro = consultar_cadastro()
     for chave in lista_chaves:
@@ -121,7 +135,8 @@ def cadastrar_produto(lista_chaves, lista_valores) -> dict:
 
 #Funções de consulta:
 def consultar_produto(produto_id: int) -> dict:
-    '''Busca a ID informada pelo usuário entre os registros no arquivo de cadastro. Retorna o dicionário do produto. '''
+    '''Busca a ID informada pelo usuário entre os registros no arquivo de cadastro.
+    Retorna o dicionário do produto.'''
     
     cadastro = consultar_cadastro()
     filtro = filter(lambda produto: int(produto['ID']) == produto_id, cadastro)
@@ -132,7 +147,8 @@ def consultar_produto(produto_id: int) -> dict:
         return produto[0]
 
 def consultar_produto_nome(nome: str) -> dict:
-    '''Busca o nome informado pelo usuário entre os registros no arquivo de cadastro. Retorna o dicionário do produto. '''
+    '''Busca o nome informado pelo usuário entre os registros no arquivo de cadastro.
+    Retorna o dicionário do produto.'''
     
     cadastro = consultar_cadastro()
     filtro = filter(lambda produto: produto['Nome'].lower() == nome.lower(), cadastro)
@@ -144,6 +160,7 @@ def consultar_produto_nome(nome: str) -> dict:
 
 # A função pedida era pra listar só o ID e nome do produto, por isso tirei o que tinha a mais, pra simplificar.
 def listar_produtos():
+    '''Printa uma lista de "ID", "Nome" e "Estoque" de todos os produtos do cadastro.'''
     
     cadastro = consultar_cadastro()
     print('Produtos cadastrados: ')
@@ -153,6 +170,8 @@ def listar_produtos():
 
 # Funções de alteração do cadastro:
 def menu_atualizar_cadastro(menu:str):
+    '''Apresenta um menu de opções de qual campo o usuário deseja alterar
+    e retorna o campo com o valor atualizado.'''
     
     if menu == '1':
         chave = 'Nome'
@@ -185,7 +204,7 @@ def menu_atualizar_cadastro(menu:str):
         print('Opção inválida, por favor, digite um número de acordo com o menu: ')
     
 def atualizar_cadastro_produto(produto_id:int):
-    ''' Altera o valor de um dos campos do produto a ser informado. '''
+    ''' Altera o valor de um dos campos do produto a ser informado.'''
     
     produto = consultar_produto(produto_id)
     if produto:
@@ -204,7 +223,7 @@ def atualizar_cadastro_produto(produto_id:int):
 
 
 def excluir_produto(produto_id: int):
-    '''Exclui o produto e todos os seus atributos da lista de produtos cadastrados. '''
+    '''Exclui o produto e todos os seus atributos da lista de produtos cadastrados.'''
     
     lista_produtos = consultar_cadastro()
     produto = consultar_produto(produto_id)
@@ -236,6 +255,7 @@ while True:
         lista_valores = inserir_infos(lista_chaves)
         cadastrar_produto(lista_chaves, lista_valores)
         print(f"Produto cadastrado com sucesso.")
+        print('\n')
 
     elif opcao == '2':
         opcao_busca = input('Você deseja consultar o produto por:\n1 - ID\n2 - Nome\nOpção: ').lower()
@@ -256,32 +276,36 @@ while True:
                 print(consultar_produto_nome(nome))
         else:
             print('Opção inválida.')
+        print('\n')
 
     elif opcao == '3':
         listar_produtos()
+        print('\n')
 
     elif opcao == '4':
         while True:
-                produto_id = validar_numero('ID', input('Informe o ID do produto: '))
-                if produto_id != None:
-                    break
+            produto_id = validar_numero('ID', input('Informe o ID do produto: '))
+            if produto_id != None:
+                break
         lista_atualizada = atualizar_cadastro_produto(produto_id)
         print(lista_atualizada)
         if lista_atualizada or lista_atualizada == []:
             atualizar_arquivo_cadastro(lista_atualizada)
-
+        print('\n')
 
     elif opcao == '5':
         while True:
-                produto_id = validar_numero('ID', input('Informe o ID do produto: '))
-                if produto_id != None:
-                    break
+            produto_id = validar_numero('ID', input('Informe o ID do produto: '))
+            if produto_id != None:
+                break
         lista_atualizada = excluir_produto(produto_id)
         if lista_atualizada or lista_atualizada == []:
             atualizar_arquivo_cadastro(lista_atualizada)
+        print('\n')
 
     elif opcao == '6':
         break
 
     else:
         print('Opção inválida, por favor, digite um número de acordo com o menu: ')
+        print('\n')
