@@ -217,7 +217,7 @@ def atualizar_cadastro_produto(produto_id:int):
             if valor['ID'] == produto_id:
                 cadastro[indice] = produto 
                 print('Cadastro atualizado')
-        return cadastro 
+        return cadastro, produto 
     else:
         print('Impossível atualizar o cadastro. ID não existe.')
 
@@ -291,10 +291,13 @@ while True:
             produto_id = validar_numero('ID', input('Informe o ID do produto: '))
             if produto_id != None:
                 break
-        lista_atualizada = atualizar_cadastro_produto(produto_id)
-        print(lista_atualizada)
-        if lista_atualizada or lista_atualizada == []:
-            atualizar_arquivo_cadastro(lista_atualizada)
+        try:
+            lista_atualizada, produto = atualizar_cadastro_produto(produto_id)
+            print(lista_atualizada)
+            if lista_atualizada or lista_atualizada == []:
+                atualizar_arquivo_cadastro(lista_atualizada)
+        except:
+            print('Retornando ao Menu...')
         print('\n')
 
     elif opcao == '5':
