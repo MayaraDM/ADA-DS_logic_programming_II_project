@@ -146,7 +146,7 @@ def consultar_produto(produto_id: int) -> dict:
     else:
         return produto[0]
 
-def consultar_produto_nome(nome: str) -> dict:
+def consultar_produto_nome(nome: str) -> list:
     '''Busca o nome informado pelo usuário entre os registros no arquivo de cadastro.
     Retorna o dicionário do produto.'''
     
@@ -156,7 +156,7 @@ def consultar_produto_nome(nome: str) -> dict:
     if produto == []:
         return None
     else:
-        return produto[0]
+        return produto
 
 # A função pedida era pra listar só o ID e nome do produto, por isso tirei o que tinha a mais, pra simplificar.
 def listar_produtos():
@@ -269,7 +269,11 @@ while True:
             if produto == None:
                 print("Produto não encontrado.")
             else:
-                print(produto)
+                valores = list(produto.values())
+                print(f'ID: {valores[0]} | Nome: {valores[1]} | Estoque: {valores[3]}', end=' | ')
+                for chave, valor in valores[2].items():
+                    print(f"{chave.capitalize()}: {valor}", end=' | ')
+                print(f'Descrição: {valores[4]}')
         
         elif opcao_busca == '2' or opcao_busca == 'nome':
             nome = input('Informe o nome do produto: ')
@@ -277,7 +281,12 @@ while True:
             if produto == None:
                 print("Produto não encontrado.")
             else:
-                print(produto)
+                for item in produto:
+                    valores = list(item.values())
+                    print(f'ID: {valores[0]} | Nome: {valores[1]} | Estoque: {valores[3]}', end=' | ')
+                    for chave, valor in valores[2].items():
+                        print(f"{chave.capitalize()}: {valor}", end=' | ')
+                    print(f'Descrição: {valores[4]}')
         else:
             print('Opção inválida.')
         print('\n')
