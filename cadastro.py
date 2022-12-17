@@ -114,7 +114,7 @@ def inserir_infos(lista_chaves:list) -> list:
                 if valor != None:
                     break
         else:
-            valor = input(f'Informe {(chave).lower()} do produto: ')
+            valor = input(f'Informe {(chave).lower()} do produto: ').strip()
         lista_valores.append(valor)
     return lista_valores
     
@@ -242,7 +242,13 @@ def excluir_produto(produto_id: int):
     else:
         print('Impossível excluir cadastro. ID não existe.')
 
-
+def exibir_produto(produto: dict) -> str:
+    valores = list(produto.values())
+    print(f'ID: {valores[0]} | Nome: {valores[1]} | Estoque: {valores[3]}', end=' | ')
+    for chave, valor in valores[2].items():
+        print(f"{chave.capitalize()}: {valor}", end=' | ')
+    print(f'Descrição: {valores[4] if valores[4] else " - "}')
+        
 # Executável num loop while:
 print('Bem vindo ao sistema de cadastro de produtos.\n\n')
 print('Informe qual opção deseja executar:\n')
@@ -269,11 +275,7 @@ while True:
             if produto == None:
                 print("Produto não encontrado.")
             else:
-                valores = list(produto.values())
-                print(f'ID: {valores[0]} | Nome: {valores[1]} | Estoque: {valores[3]}', end=' | ')
-                for chave, valor in valores[2].items():
-                    print(f"{chave.capitalize()}: {valor}", end=' | ')
-                print(f'Descrição: {valores[4]}')
+                exibir_produto(produto)
         
         elif opcao_busca == '2' or opcao_busca == 'nome':
             nome = input('Informe o nome do produto: ')
@@ -282,11 +284,7 @@ while True:
                 print("Produto não encontrado.")
             else:
                 for item in produto:
-                    valores = list(item.values())
-                    print(f'ID: {valores[0]} | Nome: {valores[1]} | Estoque: {valores[3]}', end=' | ')
-                    for chave, valor in valores[2].items():
-                        print(f"{chave.capitalize()}: {valor}", end=' | ')
-                    print(f'Descrição: {valores[4]}')
+                    exibir_produto(produto)
         else:
             print('Opção inválida.')
         print('\n')
